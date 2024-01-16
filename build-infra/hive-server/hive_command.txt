@@ -1,0 +1,28 @@
+1) execute sql command mà không cần vào console:
+hive -e "SELECT * FROM employee"
+hive -S -e "SELECT * FROM employee" 
+
+external table in hive support multiple schema that mean, you can create multiple table that associate with a folder in hdfd
+
+partition trong hive
+
+- partition are defined at table creation time
+
+
+how partition store in hdfs of hive warehouse?
+how partition store in external table?
+how data store in partition when insert data by command 'load data inpath' in:
+	- managed table
+		+ when not specific which partition to insert, hive create a default partition for store
+
+	- external table 
+		+ when not specific which partition to insert, hive create a default partition for store
+
+how data store in partition when insert data by command 'insert into table' in:
+	- managed table
+		+ You must specific data in column of partition
+	- external table 
+		+ when not specific which partition to insert, hive create a default partition for store
+
+
+
