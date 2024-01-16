@@ -5,22 +5,18 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 
 class Operator:
 
-    dag = None
-    op_module = None
-
     def __init__(
-            self,
-            op_module
+            self
         ):
-        self.op_module=op_module
+        pass
 
     
-    def data_export_to_elasticsearch(self):
+    def create_table(self):
 
-        @task(task_id="data_export_to_elasticsearch_batch")
-        def execute(**kwargs):
-            return self.op_module.data_export_to_elasticsearch_batch(**kwargs)
-        
-        return execute()
+        return SparkSubmitOperator(
+            py_files="./create_table.py",
+            task_id="create_table",
+            master="spark://spark-master:7077"
+        )
     
     

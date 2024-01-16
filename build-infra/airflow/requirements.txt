@@ -8,10 +8,13 @@ joblib==1.3.2
 mtls==0.17.0
 pytest==7.4.4
 retrying==1.3.4
+apache-airflow[apache.spark, apache.hive]==2.6.3
+
+
 
 # https://airflow.apache.org/docs/apache-airflow/2.6.3/extra-packages-ref.html
 
-#Core Airflow extras
+# Core Airflow extras
 # apache-airflow[aiobotocore]==2.6.3
 # apache-airflow[async]==2.6.3
 # apache-airflow[celery]==2.6.3
@@ -40,13 +43,11 @@ retrying==1.3.4
 # apache-airflow[apache.druid]==2.6.3
 # apache-airflow[apache.flink]==2.6.3
 # apache-airflow[apache.hdfs]==2.6.3
-# apache-airflow[apache.hive]==6.4.1
 # apache-airflow[apache.impala]==2.6.3
 # apache-airflow[apache.kylin]==2.6.3
 # apache-airflow[apache.livy]==2.6.3
 # apache-airflow[apache.pig]==2.6.3
 # apache-airflow[apache.pinot]==2.6.3
-# apache-airflow[apache.spark]==4.7.0
 # apache-airflow[apache.sqoop]==2.6.3
 # apache-airflow[apache.webhdfs]==2.6.3
 
@@ -121,4 +122,5 @@ retrying==1.3.4
 # Doc extras
 # apache-airflow[doc]==2.6.3
 # apache-airflow[doc_gen]==2.6.3
+
 

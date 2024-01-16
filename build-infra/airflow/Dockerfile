@@ -14,7 +14,7 @@ RUN apt-get update \
 # Must install package by airflow user
 USER airflow
 
-RUN pip install --force-reinstall -r /opt/airflow/requirements.txt \
+RUN pip install -r /opt/airflow/requirements.txt \
         --no-cache-dir \
         --trusted-host pypi.python.org \
         --trusted-host files.pythonhosted.org \
