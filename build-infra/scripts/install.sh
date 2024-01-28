@@ -6,7 +6,7 @@ setEnv() {
 
 prepareEnvFile() {
 	if [ ! -f .env ]; then
-		cp build/.env.tmpl .env
+		cp build-infra/.env.tmpl .env
 		echo -e "AIRFLOW_UID=$(id -u)\nAIRFLOW_GID=0" >> .env
 	fi
 }
