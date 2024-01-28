@@ -29,7 +29,7 @@ main() {
 	setEnv
 	startContainers
 	initializeAirflowDb
-	initializeMetastoreDB
+	# initializeMetastoreDB
 	stopContainers
 }
 

@@ -13,12 +13,15 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'True'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
     AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 420
-    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.default'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    AIRFLOW__WEBSERVER__SECRET_KEY: "stock-market-analysis"
   volumes: 
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
+    - stock-market-analysis-hdfs-config:/etc/hadoop
+    - stock-market-analysis-spark-config:/spark/conf
   user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   depends_on:
     &airflow-common-depends-on
@@ -81,6 +84,7 @@ services:
     volumes:
       - stock-market-analysis-hdfs-config:/etc/hadoop
       - stock-market-analysis-spark-config:/spark/conf
+      - ./data/master/data:/home/data
 
   spark-worker-1:
     build: ./build-infra/worker/
@@ -242,6 +246,8 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    environment:
+      <<: *airflow-common-env
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -276,6 +282,8 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    environment:
+      <<: *airflow-common-env
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -357,6 +365,25 @@ services:
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
+  
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper-local
+    restart: always
+    ports:
+      - "2181:2181"
+
+      
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka-local
+    ports:
+      - "9092:9092"
+    restart: always
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-local:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      # KAFKA_LISTENERS: localhost
 
 volumes:
   stock-market-analysis-hadoop-namenode:
