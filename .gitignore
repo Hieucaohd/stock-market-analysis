@@ -9,6 +9,7 @@
 **/spark-warehouse
 **/pgdata
 /data
+**/java_jdk
 
 /logs
 
