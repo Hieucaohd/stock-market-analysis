@@ -1,4 +1,4 @@
-FROM stock-market-analysis/base-hive:latest
+FROM caotrunghieu192/base-hive:latest
 
 
 COPY startup.sh /usr/local/bin/

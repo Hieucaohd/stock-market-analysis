@@ -1,4 +1,4 @@
-FROM stock-market-analysis/base-hdfs:latest
+FROM caotrunghieu192/base-hdfs:latest
 
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh

@@ -1,4 +1,4 @@
-FROM stock-market-analysis/base-hdfs:latest
+FROM caotrunghieu192/base-hdfs:latest
 
 RUN mkdir -p /hadoop/dfs/data
 VOLUME /hadoop/dfs/data

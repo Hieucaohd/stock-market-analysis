@@ -1,4 +1,4 @@
-FROM stock-market-analysis/base-spark:latest
+FROM caotrunghieu192/base-spark:latest
 
 COPY worker.sh /
 

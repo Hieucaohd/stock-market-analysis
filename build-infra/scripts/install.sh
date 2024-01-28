@@ -29,6 +29,23 @@ createBaseImage() {
 
 }
 
+createTagBaseImage() {
+	docker image rm caotrunghieu192/base-hdfs:latest || true
+	docker image rm caotrunghieu192/base-hive:latest || true
+	docker image rm caotrunghieu192/base-spark:latest || true
+	docker image rm caotrunghieu192/base-airflow:latest || true
+
+	docker tag stock-market-analysis/base-hdfs:latest caotrunghieu192/base-hdfs:latest
+	docker tag stock-market-analysis/base-hive:latest caotrunghieu192/base-hive:latest
+	docker tag stock-market-analysis/base-spark:latest caotrunghieu192/base-spark:latest
+	docker tag stock-market-analysis/base-airflow:latest caotrunghieu192/base-airflow:latest
+
+	docker push caotrunghieu192/base-hdfs:latest
+	docker push caotrunghieu192/base-hive:latest
+	docker push caotrunghieu192/base-spark:latest
+	docker push caotrunghieu192/base-airflow:latest
+}
+
 main() {
 	set -e
 	cd "$(dirname $0)/../../"
@@ -36,6 +53,7 @@ main() {
 	prepareEnvFile
 	setEnv
 	createBaseImage
+	createTagBaseImage
 }
 
 main

@@ -1,4 +1,4 @@
-FROM stock-market-analysis/base-airflow:latest
+FROM caotrunghieu192/base-airflow:latest
 
 COPY ./requirements.txt /opt/airflow/requirements.txt
 COPY ./variables.json /opt/airflow/variables.json

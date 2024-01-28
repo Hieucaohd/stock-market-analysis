@@ -128,7 +128,7 @@ services:
       - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
 
   hive-metastore:
-    image: stock-market-analysis/base-hive:latest
+    image: caotrunghieu192/base-hive:latest
     container_name: stock-market-analysis-hive-metastore
     restart: always
     command: /opt/hive/bin/hive --service metastore
