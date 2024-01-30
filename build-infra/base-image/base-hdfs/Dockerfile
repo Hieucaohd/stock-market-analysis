@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gnupg \
 	libsnappy-dev \
 	wget \
+	python3 \
+	pip \
     && rm -rf /var/lib/apt/lists/*
  
 COPY ./java_jdk/jdk-8u391-linux-x64.tar /tmp/jdk-8u391-linux-x64.tar
