@@ -10,6 +10,9 @@
 **/pgdata
 /data
 **/java_jdk
+/config/hadoop
+/config/hive
+/config/spark
 
 /logs
 
