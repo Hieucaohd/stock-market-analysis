@@ -23,11 +23,15 @@ This README file only contains basic setup instructions.
 
 ## Building Spark
 
+```bash
+sudo chmod +x ./build-infra/scripts/*.sh
+```
+
 Spark is built using [Apache Maven](https://maven.apache.org/).
 To build Spark and its example programs, run:
 
 ```bash
-./build-infra/scrips/initialize.sh
+./build-infra/scripts/initialize.sh
 ```
 
 (You do not need to do this if you downloaded a pre-built package.)
