@@ -13,6 +13,7 @@
 /config/hadoop
 /config/hive
 /config/spark
+/config/kafka
 
 /logs
 

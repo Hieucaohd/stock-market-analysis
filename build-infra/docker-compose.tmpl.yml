@@ -367,23 +367,20 @@ services:
     user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   
   zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper-local
+    image: zookeeper
+    container_name: zookeeper
     restart: always
     ports:
       - "2181:2181"
 
-      
   kafka:
-    image: wurstmeister/kafka
-    container_name: kafka-local
+    build: ./build-infra/kafka/
+    container_name: kafka
     ports:
       - "9092:9092"
     restart: always
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-local:2181
-      KAFKA_ADVERTISED_HOST_NAME: kafka
-      # KAFKA_LISTENERS: localhost
+    volumes:
+      - stock-market-analysis-kafka-config:/opt/kafka_home/config
 
 volumes:
   stock-market-analysis-hadoop-namenode:
@@ -402,6 +399,11 @@ volumes:
   stock-market-analysis-spark-config:
     driver_opts:
       device: ./config/spark/
+      o: bind
+      type: bridge
+  stock-market-analysis-kafka-config:
+    driver_opts:
+      device: ./config/kafka/
       o: bind
       type: bridge
     

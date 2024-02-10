@@ -28,6 +28,7 @@ prepareConfig() {
 	hadoop_config="hadoop"
 	hive_config="hive"
 	spark_config="spark"
+	kafka_config="kafka"
 
 	if [ ! -d "$config_folder/$hadoop_config" ]; then
 		echo "Folder $config_folder/$hadoop_config does not exists."
@@ -48,6 +49,13 @@ prepareConfig() {
 		cp -r "$config_folder/template/$spark_config" "$config_folder/$spark_config"
 	else
 		echo "Folder $config_folder/$spark_config already exists."
+	fi
+
+	if [ ! -d "$config_folder/$kafka_config" ]; then
+		echo "Folder $config_folder/$kafka_config does not exists."
+		cp -r "$config_folder/template/$kafka_config" "$config_folder/$kafka_config"
+	else
+		echo "Folder $config_folder/$kafka_config already exists."
 	fi
 }
 
