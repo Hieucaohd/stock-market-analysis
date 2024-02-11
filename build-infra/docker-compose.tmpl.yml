@@ -367,7 +367,7 @@ services:
     user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   
   zookeeper:
-    image: zookeeper
+    image: zookeeper:3.9.1
     container_name: zookeeper
     restart: always
     ports:
@@ -378,14 +378,30 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+      - "29092:29092"
     restart: always
     volumes:
       - stock-market-analysis-kafka-config:/opt/kafka_home/config
+
+  mysql:
+    image: mysql:8.3.0
+    container_name: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - stock-market-analysis-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+
+  
 
 volumes:
   stock-market-analysis-hadoop-namenode:
   stock-market-analysis-hadoop-datanode:
   stock-market-analysis-postgres-data:
+  stock-market-analysis-mysql-data:
   stock-market-analysis-hdfs-config:
     driver_opts:
       device: ./config/hadoop/
