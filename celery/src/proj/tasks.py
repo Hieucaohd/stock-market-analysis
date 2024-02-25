@@ -1,0 +1,21 @@
+from .celery import app, Task
+import redis
+import logging
+import pandas as pd
+import sqlite3
+import pickle
+import numpy as np
+from typing import List
+import random
+import time
+import redis
+import os
+
+
+@app.task
+def add(x, y):
+    return x + y
+
+@app.task
+def abc(ax):
+    return ax
