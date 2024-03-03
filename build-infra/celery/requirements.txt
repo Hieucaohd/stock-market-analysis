@@ -18,3 +18,5 @@ spectral==0.23.1
 redis==5.0.1
 SQLAlchemy==2.0.27
 cloudpickle==3.0.0
+mysql-replication==1.0.6
+mysql-connector-python==8.3.0

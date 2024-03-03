@@ -14,12 +14,16 @@ import os
 logger = get_logger(__name__)
 
 
-@app.task
-def add(x, y):
+@app.task(bind=True)
+def add(self, x, y):
     logger.info(f"Hello from {x + y}")
     return x + y
 
 
-@app.task
-def abc(ax):
+# @app.task(bind=True)
+# def 
+
+
+@app.task(bind=True)
+def abc(self, ax):
     return ax
