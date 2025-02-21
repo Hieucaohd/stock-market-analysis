@@ -34,7 +34,7 @@ services:
   namenode:
     build: ./build-infra/namenode/
     container_name: stock-market-analysis-namenode
-    restart: always
+    # restart: always
     ports:
       - 9870:9870
       - 9000:9000
@@ -46,7 +46,7 @@ services:
   datanode:
     build: ./build-infra/datanode/
     container_name: stock-market-analysis-datanode
-    restart: always
+    # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     volumes:
@@ -56,7 +56,7 @@ services:
   resourcemanager:
     build: ./build-infra/resourcemanager/
     container_name: stock-market-analysis-resourcemanager
-    restart: always
+    # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
     volumes:
@@ -65,7 +65,7 @@ services:
   nodemanager:
     build: ./build-infra/nodemanager/
     container_name: stock-market-analysis-nodemanager
-    restart: always
+    # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
     volumes:
@@ -74,7 +74,7 @@ services:
   spark-master:
     build: ./build-infra/master/
     container_name: stock-market-analysis-spark-master
-    restart: always
+    # restart: always
     depends_on:
       - namenode
       - datanode
@@ -89,7 +89,7 @@ services:
   spark-worker-1:
     build: ./build-infra/worker/
     container_name: stock-market-analysis-spark-worker-1
-    restart: always
+    # restart: always
     depends_on:
       - spark-master
     ports:
@@ -103,7 +103,7 @@ services:
   spark-worker-2:
     build: ./build-infra/worker/
     container_name: stock-market-analysis-spark-worker-2
-    restart: always
+    # restart: always
     depends_on:
       - spark-master
     ports:
@@ -117,7 +117,7 @@ services:
   hive-server:
     build: ./build-infra/hive-server
     container_name: stock-market-analysis-hive-server
-    restart: always
+    # restart: always
     environment:
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
@@ -130,7 +130,7 @@ services:
   hive-metastore:
     image: caotrunghieu192/base-hive:latest
     container_name: stock-market-analysis-hive-metastore
-    restart: always
+    # restart: always
     command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 postgres:5432"
@@ -157,7 +157,7 @@ services:
       interval: 30s
       retries: 5
       start_period: 5s
-    restart: always
+    # restart: always
 
   redis:
     image: redis:7.2.3
@@ -170,7 +170,7 @@ services:
       timeout: 30s
       retries: 50
       start_period: 30s
-    restart: always
+    # restart: always
   
   airflow-webserver:
     <<: *airflow-common
@@ -188,7 +188,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    restart: always
+    # restart: always
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -208,7 +208,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    restart: always
+    # restart: always
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -229,7 +229,7 @@ services:
     environment:
       <<: *airflow-common-env
       DUMB_INIT_SETSID: "0"
-    restart: always
+    # restart: always
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -245,7 +245,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    restart: always
+    # restart: always
     environment:
       <<: *airflow-common-env
     depends_on:
@@ -281,7 +281,7 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-    restart: always
+    # restart: always
     environment:
       <<: *airflow-common-env
     depends_on:
@@ -369,7 +369,7 @@ services:
   zookeeper:
     image: zookeeper:3.9.1
     container_name: zookeeper
-    restart: always
+    # restart: always
     ports:
       - "2181:2181"
 
@@ -379,7 +379,7 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
-    restart: always
+    # restart: always
     volumes:
       - stock-market-analysis-kafka-config:/opt/kafka_home/config
 
@@ -389,7 +389,7 @@ services:
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    # restart: always
     ports:
       - "3306:3306"
     volumes:

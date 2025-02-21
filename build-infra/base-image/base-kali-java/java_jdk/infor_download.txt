@@ -1,0 +1,4 @@
+# reference:
+https://www.kalilinux.in/2022/02/how-to-install-java8.html
+https://www.oracle.com/java/technologies/downloads/
+# link downloads java: https://drive.google.com/file/d/160iM0JHe8DB_OU7cKSckD2C69U5GVolH/view?usp=sharing

@@ -9,7 +9,8 @@
 **/spark-warehouse
 **/pgdata
 /data
-**/java_jdk
+**/java_jdk/*.tar.gz
+**/java_jdk/*.tar
 /config/hadoop
 /config/hive
 /config/spark
