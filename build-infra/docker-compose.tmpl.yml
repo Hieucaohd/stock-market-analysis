@@ -32,30 +32,50 @@ x-airflow-common:
 
 services:
   namenode:
-    build: ./build-infra/namenode/
-    container_name: stock-market-analysis-namenode
+    build: ./build-infra/hdfs-namenode/
+    container_name: stock-market-analysis-hdfs-namenode
     # restart: always
     ports:
       - 9870:9870
       - 9000:9000
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
       - ./data/namenode/data:/home/data
       - stock-market-analysis-hadoop-namenode:/hadoop/dfs/name
 
-  datanode:
-    build: ./build-infra/datanode/
-    container_name: stock-market-analysis-datanode
+  datanode-1:
+    build: ./build-infra/hdfs-datanode/
+    container_name: stock-market-analysis-hdfs-datanode-1
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
+
+  datanode-2:
+    build: ./build-infra/hdfs-datanode/
+    container_name: stock-market-analysis-hdfs-datanode-2
+    # restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    volumes:
+      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
+
+  datanode-3:
+    build: ./build-infra/hdfs-datanode/
+    container_name: stock-market-analysis-hdfs-datanode-3
+    # restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    volumes:
+      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
       - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
 
   resourcemanager:
-    build: ./build-infra/resourcemanager/
-    container_name: stock-market-analysis-resourcemanager
+    build: ./build-infra/yarn-resource-manager/
+    container_name: stock-market-analysis-yarn-resource-manager
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
@@ -63,8 +83,8 @@ services:
       - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
 
   nodemanager:
-    build: ./build-infra/nodemanager/
-    container_name: stock-market-analysis-nodemanager
+    build: ./build-infra/yarn-node-manager/
+    container_name: stock-market-analysis-yarn-node-manager
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
@@ -72,12 +92,14 @@ services:
       - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
 
   spark-master:
-    build: ./build-infra/master/
+    build: ./build-infra/spark-master/
     container_name: stock-market-analysis-spark-master
     # restart: always
     depends_on:
       - namenode
-      - datanode
+      - datanode-1
+      - datanode-2
+      - datanode-3
     ports:
       - "8080:8080"
       - "7077:7077"
@@ -87,7 +109,7 @@ services:
       - ./data/master/data:/home/data
 
   spark-worker-1:
-    build: ./build-infra/worker/
+    build: ./build-infra/spark-worker/
     container_name: stock-market-analysis-spark-worker-1
     # restart: always
     depends_on:
@@ -101,7 +123,7 @@ services:
       - stock-market-analysis-spark-config:/spark/conf
 
   spark-worker-2:
-    build: ./build-infra/worker/
+    build: ./build-infra/spark-worker/
     container_name: stock-market-analysis-spark-worker-2
     # restart: always
     depends_on:
@@ -366,12 +388,46 @@ services:
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   
-  zookeeper:
-    image: zookeeper:3.9.1
-    container_name: zookeeper
+  # name of service need to follow pattern zoo<Number>
+  zoo1:
+    build: ./build-infra/zookeeper-node/
+    container_name: zoo1
     # restart: always
     ports:
       - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+    environment:
+      ZOO_MY_ID: 1
+    volumes:
+      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/conf
+  
+  zoo2:
+    build: ./build-infra/zookeeper-node/
+    container_name: zoo2
+    # restart: always
+    ports:
+      - "2182:2181"
+      - "2889:2889"
+      - "3889:3889"
+    environment:
+      ZOO_MY_ID: 2
+    volumes:
+      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/
+  
+  zoo3:
+    build: ./build-infra/zookeeper-node/
+    container_name: zoo3
+    # restart: always
+    ports:
+      - "2183:2181"
+      - "2890:2890"
+      - "3890:3890"
+    environment:
+      ZOO_MY_ID: 3
+    volumes:
+      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/conf
+
 
   kafka:
     build: ./build-infra/kafka/
@@ -405,10 +461,11 @@ volumes:
   stock-market-analysis-postgres-data:
   stock-market-analysis-mysql-data:
   stock-market-analysis-hdfs-config:
+    driver: local
     driver_opts:
-      device: ./config/hadoop/
+      device: ./config/hadoop
       o: bind
-      type: bridge
+      type: bind
   stock-market-analysis-hive-config:
     driver_opts:
       device: ./config/hive/

@@ -12,9 +12,13 @@
 **/java_jdk/*.tar.gz
 **/java_jdk/*.tar
 /config/hadoop
+/config/hadoop-1
 /config/hive
 /config/spark
 /config/kafka
+config/zookeeper
+/build-infra/zookeeper-node/apache-zookeeper-3.8.4-bin
+/build-infra/hbase-master/hbase-2.5.10
 
 /logs
 

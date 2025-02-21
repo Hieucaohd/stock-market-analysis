@@ -29,6 +29,8 @@ prepareConfig() {
 	hive_config="hive"
 	spark_config="spark"
 	kafka_config="kafka"
+	zookeeper_config="zookeeper"
+	hbase_config="hbase"
 
 	if [ ! -d "$config_folder/$hadoop_config" ]; then
 		echo "Folder $config_folder/$hadoop_config does not exists."
@@ -57,11 +59,24 @@ prepareConfig() {
 	else
 		echo "Folder $config_folder/$kafka_config already exists."
 	fi
+	
+	if [ ! -d "$config_folder/$zookeeper_config" ]; then
+		echo "Folder $config_folder/$zookeeper_config does not exists."
+		cp -r "$config_folder/template/$zookeeper_config" "$config_folder/$zookeeper_config"
+	else
+		echo "Folder $config_folder/$zookeeper_config already exists."
+	
+	if [ ! -d "$config_folder/$hbase_config" ]; then
+		echo "Folder $config_folder/$hbase_config does not exists."
+		cp -r "$config_folder/template/$hbase_config" "$config_folder/$hbase_config"
+	else
+		echo "Folder $config_folder/$hbase_config already exists."
+	fi
 }
 
 main() {
 	set -e
-	cd "$(dirname $0)/../../"
+	cd "$(dirname $0)/../../../"
 
 	prepareEnvFile
 	setEnv
