@@ -1,1 +1,3 @@
-localhost
+hbase-region-server-1
+hbase-region-server-2
+hbase-region-server-3

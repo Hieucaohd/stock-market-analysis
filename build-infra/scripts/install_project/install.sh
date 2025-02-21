@@ -65,7 +65,8 @@ prepareConfig() {
 		cp -r "$config_folder/template/$zookeeper_config" "$config_folder/$zookeeper_config"
 	else
 		echo "Folder $config_folder/$zookeeper_config already exists."
-	
+	fi
+
 	if [ ! -d "$config_folder/$hbase_config" ]; then
 		echo "Folder $config_folder/$hbase_config does not exists."
 		cp -r "$config_folder/template/$hbase_config" "$config_folder/$hbase_config"
