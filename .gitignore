@@ -1,5 +1,6 @@
 *.tar
 *.tar.gz
+*.tgz
 /hdfs_config/bde_config/hadoop/
 /hadoop-3.3.6
 /namenode/data/*
@@ -20,6 +21,7 @@
 /config/zookeeper
 /build-infra/zookeeper-node/apache-zookeeper-3.8.4-bin
 /build-infra/hbase-master/hbase-2.5.10
+/build-infra/kafka/kafka_2.13-3.6.1
 
 /logs
 
