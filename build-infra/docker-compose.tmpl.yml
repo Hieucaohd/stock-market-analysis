@@ -33,67 +33,73 @@ x-airflow-common:
 services:
   namenode:
     build: ./build-infra/hdfs-namenode/
-    container_name: stock-market-analysis-hdfs-namenode
+    container_name: hdfs-namenode
     # restart: always
     ports:
       - 9870:9870
       - 9000:9000
     volumes:
-      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
       - ./data/namenode/data:/home/data
       - stock-market-analysis-hadoop-namenode:/hadoop/dfs/name
 
   datanode-1:
     build: ./build-infra/hdfs-datanode/
-    container_name: stock-market-analysis-hdfs-datanode-1
+    container_name: hdfs-datanode-1
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     volumes:
-      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
       - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
+    depends_on:
+      - namenode
 
   datanode-2:
     build: ./build-infra/hdfs-datanode/
-    container_name: stock-market-analysis-hdfs-datanode-2
+    container_name: hdfs-datanode-2
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     volumes:
-      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
       - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
+    depends_on:
+      - namenode
 
   datanode-3:
     build: ./build-infra/hdfs-datanode/
-    container_name: stock-market-analysis-hdfs-datanode-3
+    container_name: hdfs-datanode-3
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     volumes:
-      - ./config/hadoop:/opt/hadoop-3.3.6/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
       - stock-market-analysis-hadoop-datanode:/hadoop/dfs/data
+    depends_on:
+      - namenode
 
-  resourcemanager:
+  resource-manager:
     build: ./build-infra/yarn-resource-manager/
-    container_name: stock-market-analysis-yarn-resource-manager
+    container_name: yarn-resource-manager
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
 
-  nodemanager:
+  node-manager:
     build: ./build-infra/yarn-node-manager/
-    container_name: stock-market-analysis-yarn-node-manager
+    container_name: yarn-node-manager
     # restart: always
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
 
   spark-master:
     build: ./build-infra/spark-master/
-    container_name: stock-market-analysis-spark-master
+    container_name: spark-master
     # restart: always
     depends_on:
       - namenode
@@ -110,7 +116,7 @@ services:
 
   spark-worker-1:
     build: ./build-infra/spark-worker/
-    container_name: stock-market-analysis-spark-worker-1
+    container_name: spark-worker-1
     # restart: always
     depends_on:
       - spark-master
@@ -124,7 +130,7 @@ services:
 
   spark-worker-2:
     build: ./build-infra/spark-worker/
-    container_name: stock-market-analysis-spark-worker-2
+    container_name: spark-worker-2
     # restart: always
     depends_on:
       - spark-master
@@ -138,7 +144,7 @@ services:
 
   hive-server:
     build: ./build-infra/hive-server
-    container_name: stock-market-analysis-hive-server
+    container_name: hive-server
     # restart: always
     environment:
       SERVICE_PRECONDITION: "hive-metastore:9083"
@@ -147,11 +153,11 @@ services:
     volumes:
       - stock-market-analysis-hive-config:/opt/hive/conf/
       - stock-market-analysis-hdfs-config:/etc/hadoop
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
 
   hive-metastore:
     image: caotrunghieu192/base-hive:latest
-    container_name: stock-market-analysis-hive-metastore
+    container_name: hive-metastore
     # restart: always
     command: /opt/hive/bin/hive --service metastore
     environment:
@@ -161,11 +167,11 @@ services:
     volumes:
       - stock-market-analysis-hive-config:/opt/hive/conf/
       - stock-market-analysis-hdfs-config:/etc/hadoop
-      - stock-market-analysis-hdfs-config:/opt/hadoop-3.3.6/etc/hadoop
+      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
   
   postgres:
     build: ./build-infra/postgres-build/
-    container_name: stock-market-analysis-postgres
+    container_name: postgres
     environment:
       POSTGRES_USER: "${AIRFLOW_POSTGRES_USER}"
       POSTGRES_PASSWORD: "${AIRFLOW_POSTGRES_PASSWORD}"
@@ -183,7 +189,7 @@ services:
 
   redis:
     image: redis:7.2.3
-    container_name: stock-market-analysis-redis
+    container_name: redis
     expose:
       - 6379
     healthcheck:
@@ -196,7 +202,7 @@ services:
   
   airflow-webserver:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-webserver
+    container_name: airflow-webserver
     environment:
       <<: *airflow-common-env
       AIRFLOW__WEBSERVER__HIDE_PAUSED_DAGS_BY_DEFAULT: 'True'
@@ -218,7 +224,7 @@ services:
   
   airflow-scheduler:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-scheduler
+    container_name: airflow-scheduler
     environment:
       <<: *airflow-common-env
       AIRFLOW__SCHEDULER__SCHEDULER_HEARTBEAT_SEC: 20
@@ -238,7 +244,7 @@ services:
   
   airflow-worker:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-worker
+    container_name: airflow-worker
     command: celery worker
     healthcheck:
       test:
@@ -259,7 +265,7 @@ services:
   
   airflow-triggerer:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-triggerer
+    container_name: airflow-triggerer
     command: triggerer
     healthcheck:
       test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
@@ -277,7 +283,7 @@ services:
   
   airflow-cli:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-cli
+    container_name: airflow-cli
     profiles:
       - debug
     environment:
@@ -291,7 +297,7 @@ services:
   
   flower:
     <<: *airflow-common
-    container_name: stock-market-analysis-airflow-flower
+    container_name: airflow-flower
     command: celery flower
     profiles:
       - flower
@@ -388,7 +394,6 @@ services:
       _PIP_ADDITIONAL_REQUIREMENTS: ''
     user: "${AIRFLOW_UID}:${AIRFLOW_GID}"
   
-  # name of service need to follow pattern zoo<Number>
   zoo1:
     build: ./build-infra/zookeeper-node/
     container_name: zoo1
@@ -400,7 +405,7 @@ services:
     environment:
       ZOO_MY_ID: 1
     volumes:
-      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/conf
+      - ./config/zookeeper:/opt/zookeeper_home/conf
   
   zoo2:
     build: ./build-infra/zookeeper-node/
@@ -408,12 +413,12 @@ services:
     # restart: always
     ports:
       - "2182:2181"
-      - "2889:2889"
-      - "3889:3889"
+      - "2889:2888"
+      - "3889:3888"
     environment:
       ZOO_MY_ID: 2
     volumes:
-      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/
+      - ./config/zookeeper:/opt/zookeeper_home/conf
   
   zoo3:
     build: ./build-infra/zookeeper-node/
@@ -421,23 +426,152 @@ services:
     # restart: always
     ports:
       - "2183:2181"
-      - "2890:2890"
-      - "3890:3890"
+      - "2890:2888"
+      - "3890:3888"
     environment:
       ZOO_MY_ID: 3
     volumes:
-      - ./config/zookeeper:/opt/apache-zookeeper-3.8.4-bin/conf
+      - ./config/zookeeper:/opt/zookeeper_home/conf
 
+  hbase-master:
+    build: ./build-infra/hbase-master/
+    container_name: hbase-master
+    # restart: always
+    ports:
+      - "16010:16010"  # Web UI
+      - "16000:16000"  # RPC Server
+      - "9090:9090"    # Thrift Server (nếu cần)
+      - "9095:9095"    # Thrift HTTP (nếu cần)
+    volumes:
+      - ./config/hbase:/opt/hbase_home/conf
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+      - namenode
 
-  kafka:
+  hbase-region-server-1:
+    build: ./build-infra/hbase-region-server/
+    container_name: hbase-region-server-1
+    # restart: always
+    ports:
+      - "16030:16030"  # Web UI
+      - "16020:16020"  # RPC Server
+    volumes:
+      - ./config/hbase:/opt/hbase_home/conf
+    depends_on:
+      - hbase-master
+
+  hbase-region-server-2:
+    build: ./build-infra/hbase-region-server/
+    container_name: hbase-region-server-2
+    # restart: always
+    ports:
+      - "16031:16030"  # Web UI
+      - "16021:16020"  # RPC Server
+    volumes:
+      - ./config/hbase:/opt/hbase_home/conf
+    depends_on:
+      - hbase-master
+
+  hbase-region-server-3:
+    build: ./build-infra/hbase-region-server/
+    container_name: hbase-region-server-3
+    # restart: always
+    ports:
+      - "16032:16030"  # Web UI
+      - "16022:16020"  # RPC Server
+    volumes:
+      - ./config/hbase:/opt/hbase_home/conf
+    depends_on:
+      - hbase-master
+  
+  kafka-1:
     build: ./build-infra/kafka/
-    container_name: kafka
+    container_name: kafka-1
     ports:
       - "9092:9092"
       - "29092:29092"
     # restart: always
     volumes:
-      - stock-market-analysis-kafka-config:/opt/kafka_home/config
+      - ./config/kafka:/opt/kafka_home/config
+    environment:
+      - BROKER_ID=1
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  kafka-2:
+    build: ./build-infra/kafka/
+    container_name: kafka-2
+    ports:
+      - "9093:9093"
+      - "29093:29093"
+    # restart: always
+    volumes:
+      - ./config/kafka:/opt/kafka_home/config
+    environment:
+      - BROKER_ID=2
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  kafka-3:
+    build: ./build-infra/kafka/
+    container_name: kafka-3
+    ports:
+      - "9094:9094"
+      - "29094:29094"
+    # restart: always
+    volumes:
+      - ./config/kafka:/opt/kafka_home/config
+    environment:
+      - BROKER_ID=3
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+
+  kafka-connect-1:
+    build: ./build-infra/kafka-connect/
+    container_name: kafka-connect-1
+    ports:
+      - "8083:8083"
+    # restart: always
+    volumes:
+      - ./config/kafka:/opt/kafka_home/config
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
+  kafka-connect-2:
+    build: ./build-infra/kafka-connect/
+    container_name: kafka-connect-2
+    ports:
+      - "8084:8083"
+    # restart: always
+    volumes:
+      - ./config/kafka:/opt/kafka_home/config
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+
+  kafka-connect-3:
+    build: ./build-infra/kafka-connect/
+    container_name: kafka-connect-3
+    ports:
+      - "8085:8083"
+    # restart: always
+    volumes:
+      - ./config/kafka:/opt/kafka_home/config
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
 
   mysql:
     image: mysql:8.0.36-debian
@@ -450,10 +584,10 @@ services:
       - "3306:3306"
     volumes:
       - stock-market-analysis-mysql-data:/var/lib/mysql
+      - ./config/mysql:/etc/mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql
 
-  
 
 volumes:
   stock-market-analysis-hadoop-namenode:
@@ -486,4 +620,3 @@ volumes:
 networks:
   default:
     name: hdfs-network
-    

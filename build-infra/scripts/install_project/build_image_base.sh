@@ -17,7 +17,7 @@ createBaseImage() {
 	docker image rm stock-market-analysis/base-$base_image_name:latest || true
 
 	case "$base_image_name" in
-		"hdfs" | "hive" | "spark" | "kafka" | "kali-java" | "hbase" | "zookeeper" ) 
+		"hdfs" | "hive" | "spark" | "kafka" | "kali-java" | "hbase" | "zookeeper" | "kali-java-11" | "kafka-connect" | "kali-java-17" ) 
 			docker build ./build-infra/base-image/base-$base_image_name/ --force-rm --no-cache -t stock-market-analysis/base-$base_image_name:latest;;
 		"airflow" )
 			docker build ./build-infra/base-image/base-airflow/ \
@@ -44,7 +44,7 @@ Usage:
 	./build-infra/scripts/build_image_base.sh <service> [options] 
 
 	service
-		hdfs, hive, spark, airflow, kafka, kali-java, hbase, zookeeper
+		hdfs, hive, spark, airflow, kafka, kali-java, hbase, zookeeper, kali-java-11, kafka-connect, kali-java-17
 	
 	options
 		-h, --help			Displays how to use this command
@@ -68,7 +68,7 @@ main() {
 	base_image_name="$1"
 
 	case "$base_image_name" in 
-		"hdfs" | "hive" | "spark" | "airflow" | "kafka" | "kali-java" | "hbase" | "zookeeper" ) ;;
+		"hdfs" | "hive" | "spark" | "airflow" | "kafka" | "kali-java" | "hbase" | "zookeeper" | "kali-java-11" | "kafka-connect" | "kali-java-17" ) ;;
 	    "--help" | "-h" | "")  showUsage && exit 0;;
 		*)
 			echo "ERROR! Unknown base_image_name: $base_image_name" && exit 1;;

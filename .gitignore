@@ -19,9 +19,13 @@
 /config/kafka
 /config/hbase
 /config/zookeeper
+/config/mysql
+/config/kafka-connect-connector
 /build-infra/zookeeper-node/apache-zookeeper-3.8.4-bin
 /build-infra/hbase-master/hbase-2.5.10
 /build-infra/kafka/kafka_2.13-3.6.1
+/build-infra/base-image/base-kali-java-11/java_jdk/jdk-11.0.25
+/build-infra/base-image/base-kali-java-17/java_jdk/jdk-17.0.12
 
 /logs
 
