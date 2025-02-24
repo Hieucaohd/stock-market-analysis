@@ -15,9 +15,9 @@
 <configuration>
 
 <!-- Site specific YARN configuration properties -->
-<property><name>yarn.resourcemanager.address</name><value>resourcemanager:8032</value></property>
-<property><name>yarn.resourcemanager.scheduler.address</name><value>resourcemanager:8030</value></property>
-<property><name>yarn.resourcemanager.hostname</name><value>resourcemanager</value></property>
+<property><name>yarn.resourcemanager.address</name><value>yarn-resource-manager:8032</value></property>
+<property><name>yarn.resourcemanager.scheduler.address</name><value>yarn-resource-manager:8030</value></property>
+<property><name>yarn.resourcemanager.hostname</name><value>yarn-resource-manager</value></property>
 <property><name>yarn.resourcemanager.scheduler.class</name><value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value></property>
 <property><name>yarn.nodemanager.resource.memory-mb</name><value>16384</value></property>
 <property><name>yarn.nodemanager.remote-app-log-dir</name><value>/app-logs</value></property>

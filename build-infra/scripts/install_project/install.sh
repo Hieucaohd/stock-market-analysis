@@ -47,8 +47,14 @@ prepareConfig() {
 	fi
 
 	if [ ! -d "$config_folder/$spark_config" ]; then
-		echo "Folder $config_folder/$spark_config does not exists."
+		echo "Folder $config_folder/$spark_config does not exist."
 		cp -r "$config_folder/template/$spark_config" "$config_folder/$spark_config"
+
+		for file in "$config_folder/$spark_config"/*.template; do
+			[ -e "$file" ] || continue
+			new_name="${file%.template}"
+			mv "$file" "$new_name"
+		done
 	else
 		echo "Folder $config_folder/$spark_config already exists."
 	fi
