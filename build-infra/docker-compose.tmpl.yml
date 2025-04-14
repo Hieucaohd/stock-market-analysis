@@ -79,40 +79,69 @@ services:
     depends_on:
       - namenode
 
-  resource-manager:
+  yarn-resource-manager:
     build: ./build-infra/yarn-resource-manager/
     container_name: yarn-resource-manager
     # restart: always
     environment:
-      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode-1:9864"
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
+    depends_on:
+      - namenode
+      - datanode-1
+      - datanode-2
+      - datanode-3
 
-  node-manager:
+  yarn-node-manager-1:
     build: ./build-infra/yarn-node-manager/
-    container_name: yarn-node-manager
+    container_name: yarn-node-manager-1
     # restart: always
     environment:
-      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode-1:9864 yarn-resource-manager:8088"
     volumes:
-      - stock-market-analysis-hdfs-config:/opt/hadoop_home/etc/hadoop
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
+    depends_on:
+      - yarn-resource-manager
+
+  yarn-node-manager-2:
+    build: ./build-infra/yarn-node-manager/
+    container_name: yarn-node-manager-2
+    # restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode-1:9864 yarn-resource-manager:8088"
+    volumes:
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
+    depends_on:
+      - yarn-resource-manager
+
+  yarn-node-manager-3:
+    build: ./build-infra/yarn-node-manager/
+    container_name: yarn-node-manager-3
+    # restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode-1:9864 yarn-resource-manager:8088"
+    volumes:
+      - ./config/hadoop:/opt/hadoop_home/etc/hadoop
+    depends_on:
+      - yarn-resource-manager
 
   spark-master:
     build: ./build-infra/spark-master/
     container_name: spark-master
     # restart: always
     depends_on:
-      - namenode
-      - datanode-1
-      - datanode-2
-      - datanode-3
+      - yarn-resource-manager
+      - yarn-node-manager-1
+      - yarn-node-manager-2
+      - yarn-node-manager-3
     ports:
       - "8080:8080"
       - "7077:7077"
     volumes:
-      - stock-market-analysis-hdfs-config:/etc/hadoop
-      - stock-market-analysis-spark-config:/spark/conf
-      - ./data/master/data:/home/data
+      - ./config/hadoop:/etc/hadoop
+      - ./config/spark:/spark/conf
+      - ./data/spark-master/data:/home/data
 
   spark-worker-1:
     build: ./build-infra/spark-worker/
@@ -125,22 +154,8 @@ services:
     environment:
       SPARK_MASTER: "spark://spark-master:7077"
     volumes:
-      - stock-market-analysis-hdfs-config:/etc/hadoop
-      - stock-market-analysis-spark-config:/spark/conf
-
-  spark-worker-2:
-    build: ./build-infra/spark-worker/
-    container_name: spark-worker-2
-    # restart: always
-    depends_on:
-      - spark-master
-    ports:
-      - "8082:8081"
-    environment:
-      SPARK_MASTER: "spark://spark-master:7077"
-    volumes:
-      - stock-market-analysis-hdfs-config:/etc/hadoop
-      - stock-market-analysis-spark-config:/spark/conf
+      - ./config/hadoop:/etc/hadoop
+      - ./config/spark:/spark/conf
 
   hive-server:
     build: ./build-infra/hive-server
