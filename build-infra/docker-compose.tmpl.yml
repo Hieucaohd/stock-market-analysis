@@ -83,6 +83,8 @@ services:
     build: ./build-infra/yarn-resource-manager/
     container_name: yarn-resource-manager
     # restart: always
+    ports:
+      - "8088:8088"
     environment:
       SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode-1:9864"
     volumes:
@@ -143,19 +145,19 @@ services:
       - ./config/spark:/spark/conf
       - ./data/spark-master/data:/home/data
 
-  spark-worker-1:
-    build: ./build-infra/spark-worker/
-    container_name: spark-worker-1
-    # restart: always
-    depends_on:
-      - spark-master
-    ports:
-      - "8081:8081"
-    environment:
-      SPARK_MASTER: "spark://spark-master:7077"
-    volumes:
-      - ./config/hadoop:/etc/hadoop
-      - ./config/spark:/spark/conf
+  # spark-worker-1:
+  #   build: ./build-infra/spark-worker/
+  #   container_name: spark-worker-1
+  #   # restart: always
+  #   depends_on:
+  #     - spark-master
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     SPARK_MASTER: "spark://spark-master:7077"
+  #   volumes:
+  #     - ./config/hadoop:/etc/hadoop
+  #     - ./config/spark:/spark/conf
 
   hive-server:
     build: ./build-infra/hive-server
