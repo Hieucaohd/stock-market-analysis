@@ -1,0 +1,349 @@
+{
+	"schema": {
+		"type": "struct",
+		"fields": [
+			{
+				"type": "struct",
+				"fields": [
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "id"
+					},
+					{
+						"type": "int16",
+						"optional": false,
+						"field": "roleId"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "firstName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "middleName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "lastName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "username"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "mobile"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "email"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "passwordHash"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"name": "io.debezium.time.Timestamp",
+						"version": 1,
+						"field": "registeredAt"
+					},
+					{
+						"type": "int64",
+						"optional": true,
+						"name": "io.debezium.time.Timestamp",
+						"version": 1,
+						"field": "lastLogin"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "intro"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "profile"
+					}
+				],
+				"optional": true,
+				"name": "dbserver1.inventory.user.Value",
+				"field": "before"
+			},
+			{
+				"type": "struct",
+				"fields": [
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "id"
+					},
+					{
+						"type": "int16",
+						"optional": false,
+						"field": "roleId"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "firstName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "middleName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "lastName"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "username"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "mobile"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "email"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "passwordHash"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"name": "io.debezium.time.Timestamp",
+						"version": 1,
+						"field": "registeredAt"
+					},
+					{
+						"type": "int64",
+						"optional": true,
+						"name": "io.debezium.time.Timestamp",
+						"version": 1,
+						"field": "lastLogin"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "intro"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "profile"
+					}
+				],
+				"optional": true,
+				"name": "dbserver1.inventory.user.Value",
+				"field": "after"
+			},
+			{
+				"type": "struct",
+				"fields": [
+					{
+						"type": "string",
+						"optional": false,
+						"field": "version"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "connector"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "name"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "ts_ms"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"name": "io.debezium.data.Enum",
+						"version": 1,
+						"parameters": {
+							"allowed": "true,first,first_in_data_collection,last_in_data_collection,last,false,incremental"
+						},
+						"default": "false",
+						"field": "snapshot"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "db"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "sequence"
+					},
+					{
+						"type": "int64",
+						"optional": true,
+						"field": "ts_us"
+					},
+					{
+						"type": "int64",
+						"optional": true,
+						"field": "ts_ns"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "table"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "server_id"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "gtid"
+					},
+					{
+						"type": "string",
+						"optional": false,
+						"field": "file"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "pos"
+					},
+					{
+						"type": "int32",
+						"optional": false,
+						"field": "row"
+					},
+					{
+						"type": "int64",
+						"optional": true,
+						"field": "thread"
+					},
+					{
+						"type": "string",
+						"optional": true,
+						"field": "query"
+					}
+				],
+				"optional": false,
+				"name": "io.debezium.connector.mysql.Source",
+				"field": "source"
+			},
+			{
+				"type": "struct",
+				"fields": [
+					{
+						"type": "string",
+						"optional": false,
+						"field": "id"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "total_order"
+					},
+					{
+						"type": "int64",
+						"optional": false,
+						"field": "data_collection_order"
+					}
+				],
+				"optional": true,
+				"name": "event.block",
+				"version": 1,
+				"field": "transaction"
+			},
+			{
+				"type": "string",
+				"optional": false,
+				"field": "op"
+			},
+			{
+				"type": "int64",
+				"optional": true,
+				"field": "ts_ms"
+			},
+			{
+				"type": "int64",
+				"optional": true,
+				"field": "ts_us"
+			},
+			{
+				"type": "int64",
+				"optional": true,
+				"field": "ts_ns"
+			}
+		],
+		"optional": false,
+		"name": "dbserver1.inventory.user.Envelope",
+		"version": 2
+	},
+	"payload": {
+		"before": null,
+		"after": {
+			"id": 1,
+			"roleId": 390,
+			"firstName": "Otsuka Shino Updated",
+			"middleName": "Otsuka Shino",
+			"lastName": "Otsuka Shino",
+			"username": "Otsuka Shino",
+			"mobile": "dQjCoCMJhd",
+			"email": "shinootsuka206@outlook.com",
+			"passwordHash": "3VXpN41aJH",
+			"registeredAt": 1338373993000,
+			"lastLogin": 1252636746000,
+			"intro": "The Synchronize to Database function will give you a full picture of all database differences. Sometimes you win, sometimes you learn.",
+			"profile": "You cannot save people, you can just love them. The Main Window consists of several toolbars and panes for you to work on connections, database objects and advanced tools. Such sessions are also susceptible to session hijacking, where a malicious user takes over your session once you have authenticated. Navicat is a multi-connections Database Administration tool allowing you to connect to MySQL, Oracle, PostgreSQL, SQLite, SQL Server, MariaDB and/or MongoDB databases, making database administration to multiple kinds of database so easy. SQL Editor allows you to create and edit SQL text, prepare and execute selected queries. A query is used to extract data from the database in a readable format according to the user's request. The reason why a great man is great is that he resolves to be a great man. Flexible settings enable you to set up a custom key for comparison and synchronization. Genius is an infinite capacity for taking pains. Navicat provides a wide range advanced features, such as compelling code editing capabilities, smart code-completion, SQL formatting, and more. The Synchronize to Database function will give you a full picture of all database differences. If the plan doesn’t work, change the plan, but never the goal. The Information Pane shows the detailed object information, project activities, the DDL of database objects, object dependencies, membership of users/roles and preview. In other words, Navicat provides the ability for data in different databases and/or schemas to be kept up-to-date so that each repository contains the same information. After comparing data, the window shows the number of records that will be inserted, updated or deleted in the target. Difficult circumstances serve as a textbook of life for people. The first step is as good as half over. Flexible settings enable you to set up a custom key for comparison and synchronization. I may not have gone where I intended to go, but I think I have ended up where I needed to be. SSH serves to prevent such vulnerabilities and allows you to access a remote server's shell without compromising security. You will succeed because most people are lazy. To get a secure connection, the first thing you need to do is to install OpenSSL Library and download Database Source. It is used while your ISPs do not allow direct connections, but allows establishing HTTP connections. The Navigation pane employs tree structure which allows you to take action upon the database and their objects through their pop-up menus quickly and easily. The Information Pane shows the detailed object information, project activities, the DDL of database objects, object dependencies, membership of users/roles and preview. It wasn’t raining when Noah built the ark. Navicat authorizes you to make connection to remote servers running on different platforms (i.e. Windows, macOS, Linux and UNIX), and supports PAM and GSSAPI authentication. There is no way to happiness. Happiness is the way. The On Startup feature allows you to control what tabs appear when you launch Navicat. Remember that failure is an event, not a person. Navicat Cloud provides a cloud service for synchronizing connections, queries, model files and virtual group information from Navicat, other Navicat family members, different machines and different platforms. All the Navicat Cloud objects are located under different projects. You can share the project to other Navicat Cloud accounts for collaboration. It is used while your ISPs do not allow direct connections, but allows establishing HTTP connections. I will greet this day with love in my heart. Monitored servers include MySQL, MariaDB and SQL Server, and compatible with cloud databases like Amazon RDS, Amazon Aurora, Oracle Cloud, Google Cloud and Microsoft Azure. A man is not old until regrets take the place of dreams. Creativity is intelligence having fun. The Information Pane shows the detailed object information, project activities, the DDL of database objects, object dependencies, membership of users/roles and preview. A man’s best friends are his ten fingers. Remember that failure is an event, not a person. All the Navicat Cloud objects are located under different projects. You can share the project to other Navicat Cloud accounts for collaboration. To clear or reload various internal caches, flush tables, or acquire locks, control-click your connection in the Navigation pane and select Flush and choose the flush option. You must have the reload privilege to use this feature. I will greet this day with love in my heart. You must be the change you wish to see in the world. Navicat 15 has added support for the system-wide dark mode. After logged in the Navicat Cloud feature, the Navigation pane will be divided into Navicat Cloud and My Connections sections. The Information Pane shows the detailed object information, project activities, the DDL of database objects, object dependencies, membership of users/roles and preview. All journeys have secret destinations of which the traveler is unaware. Creativity is intelligence having fun. Monitored servers include MySQL, MariaDB and SQL Server, and compatible with cloud databases like Amazon RDS, Amazon Aurora, Oracle Cloud, Google Cloud and Microsoft Azure. After logged in the Navicat Cloud feature, the Navigation pane will be divided into Navicat Cloud and My Connections sections. If your Internet Service Provider (ISP) does not provide direct access to its server, Secure Tunneling Protocol (SSH) / HTTP is another solution. To clear or reload various internal caches, flush tables, or acquire locks, control-click your connection in the Navigation pane and select Flush and choose the flush option. You must have the reload privilege to use this feature. The past has no power over the present moment. Creativity is intelligence having fun. Navicat Cloud provides a cloud service for synchronizing connections, queries, model files and virtual group information from Navicat, other Navicat family members, different machines and different platforms. Monitored servers include MySQL, MariaDB and SQL Server, and compatible with cloud databases like Amazon RDS, Amazon Aurora, Oracle Cloud, Google Cloud and Microsoft Azure. Creativity is intelligence having fun. Difficult circumstances serve as a textbook of life for people. Flexible settings enable you to set up a custom key for comparison and synchronization. You cannot save people, you can just love them. Actually it is just in an idea when feel oneself can achieve and cannot achieve. In the middle of winter I at last discovered that there was in me an invincible summer. The repository database can be an existing MySQL, MariaDB, PostgreSQL, SQL Server, or Amazon RDS instance. To clear or reload various internal caches, flush tables, or acquire locks, control-click your connection in the Navigation pane and select Flush and choose the flush option. You must have the reload privilege to use this feature. Navicat Cloud could not connect and access your databases. By which it means, it could only store your connection settings, queries, model files, and virtual group; your database passwords and data (e.g. tables, views, etc) will not be stored to Navicat Cloud. Navicat provides a wide range advanced features, such as compelling code editing capabilities, smart code-completion, SQL formatting, and more. A man is not old until regrets take the place of dreams. Navicat Monitor is a safe, simple and agentless remote server monitoring tool that is packed with powerful features to make your monitoring effective as possible. The Main Window consists of several toolbars and panes for you to work on connections, database objects and advanced tools. Navicat allows you to transfer data from one database and/or schema to another with detailed analytical process. To clear or reload various internal caches, flush tables, or acquire locks, control-click your connection in the Navigation pane and select Flush and choose the flush option. You must have the reload privilege to use this feature. If your Internet Service Provider (ISP) does not provide direct access to its server, Secure Tunneling Protocol (SSH) / HTTP is another solution. SSH serves to prevent such vulnerabilities and allows you to access a remote server's shell without compromising security. Navicat Monitor is a safe, simple and agentless remote server monitoring tool that is packed with powerful features to make your monitoring effective as possible. It can also manage cloud databases such as Amazon Redshift, Amazon RDS, Alibaba Cloud. Features in Navicat are sophisticated enough to provide professional developers for all their specific needs, yet easy to learn for users who are new to database server. Import Wizard allows you to import data to tables/collections from CSV, TXT, XML, DBF and more."
+		},
+		"source": {
+			"version": "3.0.6.Final",
+			"connector": "mysql",
+			"name": "dbserver1",
+			"ts_ms": 1746518656000,
+			"snapshot": "last",
+			"db": "inventory",
+			"sequence": null,
+			"ts_us": 1746518656000000,
+			"ts_ns": 1746518656000000000,
+			"table": "user",
+			"server_id": 0,
+			"gtid": null,
+			"file": "mysql-bin.000004",
+			"pos": 157,
+			"row": 0,
+			"thread": null,
+			"query": null
+		},
+		"transaction": null,
+		"op": "r",
+		"ts_ms": 1746518656745,
+		"ts_us": 1746518656745976,
+		"ts_ns": 1746518656745976616
+	}
+}
